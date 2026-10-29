@@ -1,0 +1,8 @@
+# Sysdig Monitor to Grafana Dashboard Converter
+# Python 3.7+ required
+
+# Required dependencies
+requests>=2.25.0
+
+# Optional: for development/testing
+pytest>=7.0

@@ -1,0 +1,90 @@
+{
+  "name": "Infrastructure Monitoring",
+  "dashboardDescription": "Example Sysdig dashboard showing infrastructure metrics",
+  "panels": [
+    {
+      "name": "Container CPU Usage",
+      "panelType": "graph",
+      "width": 12,
+      "height": 8,
+      "x": 0,
+      "y": 0,
+      "targets": [
+        {
+          "metric": "container.cpu.usage_percent",
+          "legendFormat": "{{container.name}}",
+          "filters": {}
+        }
+      ]
+    },
+    {
+      "name": "Memory Usage",
+      "panelType": "graph",
+      "width": 12,
+      "height": 8,
+      "x": 12,
+      "y": 0,
+      "targets": [
+        {
+          "metric": "container.memory.usage_bytes",
+          "legendFormat": "{{container.name}}",
+          "filters": {}
+        }
+      ]
+    },
+    {
+      "name": "Network I/O",
+      "panelType": "graph",
+      "width": 24,
+      "height": 8,
+      "x": 0,
+      "y": 8,
+      "targets": [
+        {
+          "metric": "container.network.in.bytes",
+          "legendFormat": "In - {{container.name}}",
+          "filters": {}
+        },
+        {
+          "metric": "container.network.out.bytes",
+          "legendFormat": "Out - {{container.name}}",
+          "filters": {}
+        }
+      ]
+    },
+    {
+      "name": "Pod Status",
+      "panelType": "table",
+      "width": 24,
+      "height": 8,
+      "x": 0,
+      "y": 16,
+      "targets": [
+        {
+          "metric": "kubernetes.pod.running_containers",
+          "filters": {}
+        }
+      ]
+    }
+  ],
+  "variables": [
+    {
+      "name": "cluster",
+      "type": "query",
+      "query": "label_values(up, cluster)",
+      "default": "prod",
+      "options": [
+        {"text": "prod", "value": "prod"},
+        {"text": "staging", "value": "staging"},
+        {"text": "dev", "value": "dev"}
+      ]
+    },
+    {
+      "name": "namespace",
+      "type": "query",
+      "query": "label_values(kubernetes_pod_info{cluster=\"$cluster\"}, namespace)",
+      "default": "default",
+      "multiSelect": true
+    }
+  ]
+}
